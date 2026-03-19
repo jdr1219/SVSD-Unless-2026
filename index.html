@@ -11,14 +11,15 @@
 
     <style>
         :root {
-            /* Fallback dark red so the screen is never black while loading */
-            --bg-color: #1a0000;
+            --bg-color: #000000;
             --glass-fill: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); 
             --theme-color: rgba(255, 0, 0, 0.5); 
             --accent-yellow: #fff200; 
             --accent-blue: #00d4ff;   
+            --accent-white: #ffffff;
             --glow-yellow: rgba(255, 242, 0, 0.9); 
             --glow-blue: rgba(0, 212, 255, 0.9);
+            --glow-white: rgba(255, 255, 255, 0.8);
             --morph-speed: 0.8s;
         }
 
@@ -28,8 +29,7 @@
             margin: 0; padding: 0;
             width: 100%; height: 100%;
             overflow: hidden;
-            /* Instant fallback background before Vanta loads */
-            background: radial-gradient(circle at center, #3a0000 0%, #000000 100%);
+            background-color: #1a0000; 
             font-family: 'Montserrat', sans-serif;
             color: white;
         }
@@ -49,147 +49,79 @@
             padding: 20px;
         }
 
-        /* WEBPAGE STYLE: Starts as a wide Hero Banner instead of a circle */
         .liquid-node {
             position: relative;
-            width: 90%; max-width: 600px; height: 260px;
+            width: 230px; height: 230px;
             background: var(--glass-fill);
             backdrop-filter: blur(25px) saturate(160%);
             -webkit-backdrop-filter: blur(25px) saturate(160%);
             border: 2.5px solid var(--theme-color); 
-            border-radius: 40px;
+            border-radius: 50%;
             display: flex; flex-direction: column;
             transition: all var(--morph-speed) cubic-bezier(0.6, 0.05, 0.01, 1), border 0.8s ease;
             overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 
-                        inset 0 0 40px rgba(255,255,255,0.05);
-            animation: float 5s ease-in-out infinite;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(255,255,255,0.05);
+            animation: float 4s ease-in-out infinite;
         }
 
-        /* WEBPAGE STYLE: Expands into a full website container */
         .liquid-node.expanded {
-            width: 95%; max-width: 1100px; height: 85vh;
-            border-radius: 30px;
+            width: 100%; height: 90vh;
+            max-width: 480px;
+            border-radius: 40px;
             animation: none;
-            padding: 40px 50px;
+            padding: 40px 25px;
         }
 
         .view-step { 
-            display: none; 
-            width: 100%; height: 100%; 
-            flex-direction: column; 
-            z-index: 1;
-            opacity: 0;
-            transform: scale(0.95) translateY(10px);
-            filter: blur(10px);
+            display: none; width: 100%; height: 100%; 
+            flex-direction: column; z-index: 1;
+            opacity: 0; transform: scale(0.95) translateY(10px); filter: blur(10px);
             transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), filter 0.5s ease;
         }
 
-        .view-step.active-view { 
-            display: flex; 
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            filter: blur(0px);
-        }
+        .view-step.active-view { display: flex; opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
 
         #view-home { justify-content: center; align-items: center; text-align: center; cursor: pointer; }
 
-        .hero-title {
-            font-weight: 200; letter-spacing: 12px; font-size: 2rem; text-transform: uppercase; margin: 0;
-        }
-        .hero-subtitle {
-            font-weight: 600; font-size: 0.75rem; letter-spacing: 4px; margin-top: 15px; opacity: 0.6;
-        }
-
-        /* Webpage Card Layout for Dashboard */
-        .dash-header {
-            font-size: 2.2rem; font-weight: 200; letter-spacing: 10px; text-transform: uppercase;
-            margin-bottom: 40px; text-align: center;
-        }
-
-        .card-grid {
-            display: flex; gap: 30px; width: 100%; height: 60%; justify-content: center;
+        /* Click Me Style */
+        .click-me {
+            font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
+            margin-top: 15px; opacity: 0.5; font-weight: 600;
+            animation: breathe 2s ease-in-out infinite;
         }
 
         .bubble-item {
-            position: relative;
-            flex: 1; /* Makes them sit side-by-side filling the space */
-            border-radius: 25px;
+            position: relative; border-radius: 25px;
             display: flex; align-items: center; justify-content: center;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            font-weight: 400; font-size: 1.5rem; letter-spacing: 6px; cursor: pointer;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.02);
+            text-transform: uppercase; transition: all 0.3s ease;
+            font-weight: 400; cursor: pointer; margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.02); flex-shrink: 0;
         }
 
-        /* Yellow Section: Clear with Yellow Glow Border */
-        .glass-yellow {
-            border: 2px solid var(--accent-yellow);
-            color: var(--accent-yellow);
-            text-shadow: 0 0 15px var(--glow-yellow);
-            box-shadow: inset 0 0 10px rgba(255, 242, 0, 0.1);
-        }
+        .glass-yellow { border: 2px solid var(--accent-yellow); color: var(--accent-yellow); text-shadow: 0 0 15px var(--glow-yellow); }
+        .glass-blue { border: 2px solid var(--accent-blue); color: var(--accent-blue); text-shadow: 0 0 15px var(--glow-blue); }
+        .glass-white { border: 2px solid var(--accent-white); color: var(--accent-white); text-shadow: 0 0 15px var(--glow-white); }
 
-        /* Blue Section: Clear with Blue Glow Border */
-        .glass-blue {
-            border: 2px solid var(--accent-blue);
-            color: var(--accent-blue);
-            text-shadow: 0 0 15px var(--glow-blue);
-            box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.1);
-        }
+        .bubble-item:active { transform: scale(0.95); filter: brightness(1.3); }
 
-        .bubble-item:active { transform: scale(0.97); filter: brightness(1.3); }
+        .size-huge { height: 20%; font-size: 1.8rem; letter-spacing: 8px; border: none; background: transparent; pointer-events: none; color: white; margin-bottom: 15px; text-align: center; display: flex; align-items: center; justify-content: center;}
+        .size-med { height: 12%; font-size: 0.9rem; letter-spacing: 4px; }
 
         .nav-back {
-            align-self: flex-start;
-            background: rgba(255,255,255,0.03);
-            border: 1.5px solid var(--theme-color);
-            border-radius: 50px;
+            align-self: flex-start; background: rgba(255,255,255,0.03);
+            border: 1.5px solid var(--theme-color); border-radius: 50px;
             color: white; font-family: inherit; font-size: 0.7rem; font-weight: 600;
             text-transform: uppercase; letter-spacing: 3px;
-            margin-bottom: 30px; padding: 12px 25px;
-            cursor: pointer;
-            transition: all 0.4s ease;
+            margin-bottom: 20px; padding: 10px 20px; cursor: pointer;
             display: flex; align-items: center; gap: 8px;
         }
         
-        .nav-back:active { background: white; color: black; }
+        .dynamic-title { margin-top: 10%; font-size: 2.2rem; font-weight: 200; letter-spacing: 10px; text-transform: uppercase; text-align: center; margin-bottom: 20px;}
 
-        .dynamic-title { 
-            margin-top: 5%; 
-            font-size: 3rem; 
-            font-weight: 200; 
-            letter-spacing: 12px; 
-            text-transform: uppercase; 
-            text-align: left;
-        }
+        #poster-img { width: 100%; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        /* Placeholder Web Content */
-        .content-body {
-            margin-top: 30px; font-size: 1.1rem; line-height: 1.8; font-weight: 200; max-width: 800px;
-        }
-
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
-        
-        .shimmer {
-            position: absolute; top: 0; left: -100%;
-            width: 70%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
-            transform: skewX(-30deg);
-            animation: shine 8s infinite;
-            pointer-events: none; z-index: 0;
-        }
-        @keyframes shine { 0% { left: -150%; } 20% { left: 250%; } 100% { left: 250%; } }
-
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .liquid-node.expanded { padding: 30px 20px; }
-            .card-grid { flex-direction: column; height: 75%; }
-            .dash-header { font-size: 1.6rem; }
-            .dynamic-title { font-size: 2rem; text-align: center; }
-            .content-body { text-align: center; }
-        }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes breathe { 0%, 100% { opacity: 0.3; transform: scale(0.95); } 50% { opacity: 0.8; transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -198,27 +130,46 @@
 
     <div class="app-shell">
         <div class="liquid-node" id="main-node">
-            <div class="shimmer"></div> 
-
+            
             <div id="view-home" class="view-step active-view" onclick="openDash()" style="display: flex;">
-                <h1 class="hero-title">Unless 2026</h1>
-                <div class="hero-subtitle">Tap to enter</div>
+                <span style="font-weight: 400; letter-spacing: 8px; font-size: 1rem; text-transform: uppercase;">Unless 2026</span>
+                <div class="click-me">Click Me</div>
             </div>
 
             <div id="view-dash" class="view-step">
-                <div class="dash-header">Select Module</div>
-                <div class="card-grid">
-                    <div class="bubble-item glass-yellow" onclick="navTo('sub1')">Literacy</div>
-                    <div class="bubble-item glass-blue" onclick="navTo('sub2')">Stem</div>
-                </div>
+                <div class="bubble-item size-huge">Unless 2026</div>
+                <div class="bubble-item size-med glass-white" onclick="navToFolder('main')">Main</div>
+                <div class="bubble-item size-med glass-yellow" onclick="navToFolder('literacy')">Literacy</div>
+                <div class="bubble-item size-med glass-blue" onclick="navToFolder('stem')">Stem</div>
+            </div>
+
+            <div id="view-main" class="view-step">
+                <button class="nav-back" onclick="navBack('dash')">← BACK</button>
+                <div class="bubble-item size-huge" style="color: var(--accent-white); text-shadow: 0 0 20px var(--glow-white);">Main</div>
+                <div class="bubble-item size-med glass-white" onclick="openContent('Main Poster', 'main', true)">Main Poster</div>
+            </div>
+
+            <div id="view-literacy" class="view-step">
+                <button class="nav-back" onclick="navBack('dash')">← BACK</button>
+                <div class="bubble-item size-huge" style="color: var(--accent-yellow); text-shadow: 0 0 20px var(--glow-yellow);">Literacy</div>
+                <div class="bubble-item size-med glass-yellow" onclick="openContent('Research', 'literacy')">Research</div>
+                <div class="bubble-item size-med glass-yellow" onclick="openContent('Story', 'literacy')">Story</div>
+                <div class="bubble-item size-med glass-yellow" onclick="openContent('Inspiration', 'literacy')">Inspiration</div>
+            </div>
+
+            <div id="view-stem" class="view-step">
+                <button class="nav-back" onclick="navBack('dash')">← BACK</button>
+                <div class="bubble-item size-huge" style="color: var(--accent-blue); text-shadow: 0 0 20px var(--glow-blue);">Stem</div>
+                <div class="bubble-item size-med glass-blue" onclick="openContent('Habitat Loss Simulator', 'stem')">Habitat Loss Simulator</div>
+                <div class="bubble-item size-med glass-blue" onclick="openContent('Make-a-choice', 'stem')">Make-a-choice</div>
+                <div class="bubble-item size-med glass-blue" onclick="openContent('Enviroscape', 'stem')">Enviroscape</div>
             </div>
 
             <div id="view-content" class="view-step">
-                <button class="nav-back" onclick="navBack()"><span>←</span> Dashboard</button>
+                <button class="nav-back" id="content-back">← BACK</button>
                 <div class="dynamic-title" id="content-title"></div>
-                <div class="content-body">
-                    Welcome to the detailed view. This space is now wide enough to handle paragraphs of text, images, or data visualizations while maintaining the seamless glass aesthetic.
-                </div>
+                <div id="content-body" style="width: 100%; display: flex; justify-content: center;">
+                    </div>
             </div>
         </div>
     </div>
@@ -229,46 +180,41 @@
     <script>
         let vantaEffect;
 
-        function setVanta(color = 0xff0000) {
+        function setVanta(color = 0xff0000, bgColor = 0x110000) {
             if (vantaEffect) vantaEffect.destroy();
             vantaEffect = VANTA.TOPOLOGY({
                 el: "#vanta-canvas",
-                mouseControls: false, 
-                touchControls: true,
+                mouseControls: false, touchControls: true,
                 scale: 2.2, scaleMobile: 1.0,
-                color: color,
-                backgroundColor: 0x0,
-                speed: 3.0 
+                color: color, backgroundColor: bgColor, speed: 3.0 
             });
-            
             const hexColor = '#' + color.toString(16).padStart(6, '0');
             document.documentElement.style.setProperty('--theme-color', hexColor + '99'); 
         }
 
-        // Initialize Vanta immediately
-        setVanta(0xff0000);
+        setVanta(0xff0000, 0x110000);
 
         const node = document.getElementById('main-node');
         const views = {
             home: document.getElementById('view-home'),
             dash: document.getElementById('view-dash'),
+            main: document.getElementById('view-main'),
+            literacy: document.getElementById('view-literacy'),
+            stem: document.getElementById('view-stem'),
             content: document.getElementById('view-content')
         };
 
-        function performTransition(outView, inView, vantaColor) {
+        function performTransition(outView, inView, vantaColor, vantaBg) {
             outView.classList.remove('active-view');
             document.getElementById('vanta-canvas').style.filter = 'blur(15px)';
-
             setTimeout(() => {
                 outView.style.display = 'none';
-                if(vantaColor !== null) setVanta(vantaColor);
+                if(vantaColor !== null) setVanta(vantaColor, vantaBg);
                 inView.style.display = 'flex';
-                
                 setTimeout(() => {
                     inView.classList.add('active-view');
                     document.getElementById('vanta-canvas').style.filter = 'blur(0px)';
                 }, 50);
-
             }, 400); 
         }
 
@@ -277,21 +223,42 @@
             performTransition(views.home, views.dash, null);
         }
 
-        function navTo(page) {
-            const isSub1 = (page === 'sub1');
-            const color = isSub1 ? 0xfff200 : 0x00d4ff;
-            const titleText = isSub1 ? "Literacy" : "Stem";
-            
-            const titleEl = document.getElementById('content-title');
-            titleEl.innerText = titleText;
-            titleEl.style.color = isSub1 ? 'var(--accent-yellow)' : 'var(--accent-blue)';
-            titleEl.style.textShadow = isSub1 ? '0 0 30px var(--glow-yellow)' : '0 0 30px var(--glow-blue)';
-
-            performTransition(views.dash, views.content, color);
+        function navToFolder(folder) {
+            let color, bgColor;
+            if (folder === 'main') { color = 0xffffff; bgColor = 0x050505; }
+            else if (folder === 'literacy') { color = 0xfff200; bgColor = 0x111100; }
+            else { color = 0x00d4ff; bgColor = 0x000811; }
+            performTransition(views.dash, views[folder], color, bgColor);
         }
 
-        function navBack() {
-            performTransition(views.content, views.dash, 0xff0000);
+        function openContent(title, parent, isPoster = false) {
+            const titleEl = document.getElementById('content-title');
+            const bodyEl = document.getElementById('content-body');
+            titleEl.innerText = title;
+            
+            // Set Color based on parent
+            if (parent === 'main') titleEl.style.color = 'var(--accent-white)';
+            else if (parent === 'literacy') titleEl.style.color = 'var(--accent-yellow)';
+            else titleEl.style.color = 'var(--accent-blue)';
+
+            // Clear previous content
+            bodyEl.innerHTML = "";
+            if (isPoster) {
+                // ADDING YOUR PHOTO HERE
+                bodyEl.innerHTML = `<img src="image.jpeg" id="poster-img" alt="Main Poster">`;
+            }
+
+            document.getElementById('content-back').onclick = () => performTransition(views.content, views[parent], null);
+            performTransition(views[parent], views.content, null);
+        }
+
+        function navBack(target) {
+            let current;
+            if (views.main.style.display === 'flex') current = views.main;
+            else if (views.literacy.style.display === 'flex') current = views.literacy;
+            else current = views.stem;
+            
+            performTransition(current, views[target], 0xff0000, 0x110000);
         }
     </script>
 </body>
